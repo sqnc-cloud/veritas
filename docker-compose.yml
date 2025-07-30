@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  veritas-db:
+    image: mongo:latest
+    container_name: veritas-db
+    ports:
+      - "27017:27017"
+    networks:
+      - veritas-network
+    volumes:
+      - mongodb_data:/data/db
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+
+  veritas-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: veritas-api
+    ports:
+      - "8080:8080"
+    environment:
+      MONGO_URI: mongodb://veritas-db:27017
+      PORT: 8080
+    depends_on:
+      - veritas-db 
+    networks:
+      - veritas-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+networks:
+  veritas-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
