@@ -21,7 +21,7 @@ import (
 
 // @title Veritas API
 // @version 1.0
-// @description This is a sample server for a doorman API.
+// @description This is a sample server for a auth managing API.
 // @termsOfService http://swagger.io/terms/
 
 // @contact.name API Support
