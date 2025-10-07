@@ -27,7 +27,7 @@ func GetMongoDBClient(ctx context.Context) (*mongo.Client, error) {
 func GetDatabaseName() string {
 	dbName := os.Getenv("DB_NAME")
 	if dbName == "" {
-		dbName = "housekeeper"
+		dbName = "veritas"
 		log.Println("DB_NAME not set, using default: housekeeper")
 	}
 	return dbName
