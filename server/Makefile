@@ -1,4 +1,6 @@
-build: 
+.PHONY: run docs dev test db-local-start db-local-stop setup
+
+build:
 	go build -o veritas ./cmd/api
 
 run: build
@@ -12,3 +14,14 @@ dev:
 
 test:
 	go test -v ./...
+
+db-local-start:
+	docker compose up -d veritas-db
+
+db-local-stop:
+	docker compose stop veritas-db
+
+setup:
+	@echo "Installing Go tools..."
+	go install github.com/swaggo/swag/cmd/swag@latest
+	@echo "Setup complete. Make sure $(go env GOPATH)/bin is in your PATH"
