@@ -1,5 +1,32 @@
 basePath: /
 definitions:
+  domain.Role:
+    properties:
+      createdAt:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  dtos.CreateRoleInputDTO:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  dtos.CreateRoleOutputDTO:
+    properties:
+      id:
+        type: string
+    type: object
   dtos.CreateUserInputDTO:
     properties:
       email:
@@ -28,6 +55,18 @@ definitions:
       email:
         type: string
       password:
+        type: string
+    type: object
+  dtos.UpdateRoleInputDTO:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    type: object
+  dtos.UpdateRoleOutputDTO:
+    properties:
+      id:
         type: string
     type: object
   dtos.UpdateUserInputDTO:
@@ -109,6 +148,116 @@ paths:
       summary: Create a new user
       tags:
       - auth
+  /roles:
+    get:
+      description: Get all roles
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Role'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Get all roles
+      tags:
+      - roles
+    post:
+      consumes:
+      - application/json
+      description: Create a new role with the input payload
+      parameters:
+      - description: Create Role
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.CreateRoleInputDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dtos.CreateRoleOutputDTO'
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new role
+      tags:
+      - roles
+  /roles/{id}:
+    delete:
+      description: Delete a role by ID
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              message:
+                type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete a role
+      tags:
+      - roles
+    get:
+      description: Get a role by ID
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Role'
+      security:
+      - ApiKeyAuth: []
+      summary: Get a role by ID
+      tags:
+      - roles
+    put:
+      consumes:
+      - application/json
+      description: Update a role with the input payload
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update Role
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.UpdateRoleInputDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.UpdateRoleOutputDTO'
+      security:
+      - ApiKeyAuth: []
+      summary: Update a role
+      tags:
+      - roles
   /users:
     get:
       description: Get all users
