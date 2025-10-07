@@ -71,9 +71,14 @@ func main() {
 	roleUsecase := usecases.NewRoleUsecase(roleRepository)
 	roleHandler := handlers.NewRoleHandler(*roleUsecase)
 
+	claimRepository := db.NewClaimRepository(client.Database(dbName))
+	claimUsecase := usecases.NewClaimUsecase(claimRepository)
+	claimHandler := handlers.NewClaimHandler(*claimUsecase)
+
 	routes.SetupUserRoutes(router, userHandler)
 	routes.SetupAuthRoutes(router, authHandler)
 	routes.SetupRoleRoutes(router, roleHandler)
+	routes.SetupClaimRoutes(router, claimHandler)
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
